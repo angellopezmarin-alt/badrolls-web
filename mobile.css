@@ -1,19 +1,30 @@
-@media (max-width:720px){
+@media (max-width:1100px){
+  .section-label{font-size:11px}
+  .about-intro{max-width:680px;font-size:23px;line-height:1.55;text-align:left;hyphens:none}
+  .about-copy{max-width:680px}
+  .about-copy p{font-size:20px;line-height:1.75;margin-bottom:31px;color:#2f2c28;text-align:left;hyphens:none}
+  .about-copy blockquote{font-size:25px;line-height:1.42;text-align:left;hyphens:none}
+  .people p{font-size:19px;line-height:1.72;color:#2f2c28}
   .lead{font-size:20px;line-height:1.62}
-  .about-intro{font-size:22px;line-height:1.55}
-  .about-copy p{font-size:20px;line-height:1.72;margin-bottom:30px;color:#2f2c28}
-  .about-copy blockquote{font-size:24px;line-height:1.42}
-  .people p{font-size:19px;line-height:1.7;color:#2f2c28}
-  .hero-episode h2{font-size:clamp(27px,7.5vw,34px)}
+}
+
+@media (max-width:720px){
+  .lead{font-size:21px;line-height:1.62}
+  .about-intro{font-size:24px;line-height:1.55}
+  .about-copy p{font-size:21px;line-height:1.72;margin-bottom:32px}
+  .about-copy blockquote{font-size:26px;line-height:1.42}
+  .people p{font-size:20px;line-height:1.72}
+  .hero-episode h2{font-size:clamp(28px,7.7vw,35px)}
   .section-label{font-size:11px}
   .listen-label{font-size:11px}
   .platform-link.spotify{font-size:13px}
   .episode-meta{font-size:11px}
 }
+
 @media (max-width:390px){
-  .lead{font-size:19px}
-  .about-intro{font-size:21px}
-  .about-copy p{font-size:19px;line-height:1.7}
-  .about-copy blockquote{font-size:23px}
-  .people p{font-size:18px}
+  .lead{font-size:20px}
+  .about-intro{font-size:23px}
+  .about-copy p{font-size:20px;line-height:1.7}
+  .about-copy blockquote{font-size:24px}
+  .people p{font-size:19px}
 }
