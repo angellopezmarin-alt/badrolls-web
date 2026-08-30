@@ -1,19 +1,21 @@
 @media (max-width:1100px){
   .section-label{font-size:13px}
-  .about-intro{max-width:600px;font-size:32px;line-height:1.45;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
-  .about-copy{max-width:600px}
-  .about-copy p:not(.about-punch){font-size:30px;line-height:1.58;margin-bottom:42px;color:#1f1d1a;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
-  .about-copy blockquote{max-width:600px;font-size:34px;line-height:1.34;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
+  .about-grid,.about-heading,.about-copy{width:100%;max-width:none}
+  .about-intro{width:100%;max-width:none;font-size:32px;line-height:1.45;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
+  .about-copy p:not(.about-punch){width:100%;font-size:30px;line-height:1.58;margin-bottom:42px;color:#1f1d1a;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
+  .about-copy blockquote{width:100%;max-width:none;font-size:34px;line-height:1.34;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
   .people p{font-size:26px;line-height:1.6;color:#1f1d1a;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
   .lead{font-size:28px;line-height:1.5}
 }
 
 @media (max-width:720px){
+  .about,.people,.section{padding-left:22px!important;padding-right:22px!important}
   .lead{font-size:29px;line-height:1.5}
   .about-intro{font-size:33px;line-height:1.44;text-align:justify!important}
   .about-copy p:not(.about-punch){font-size:30px;line-height:1.58;margin-bottom:42px;text-align:justify!important}
   .about-copy blockquote{font-size:35px;line-height:1.34;text-align:justify!important}
   .people p{font-size:26px;line-height:1.6;text-align:justify!important}
+  .about-punch{margin-left:0!important;margin-right:0!important;width:100%!important}
   .hero-episode h2{font-size:clamp(31px,8.4vw,38px)}
   .section-label{font-size:13px}
   .listen-label{font-size:13px}
@@ -22,6 +24,7 @@
 }
 
 @media (max-width:390px){
+  .about,.people,.section{padding-left:18px!important;padding-right:18px!important}
   .lead{font-size:27px}
   .about-intro{font-size:31px;text-align:justify!important}
   .about-copy p:not(.about-punch){font-size:28px;line-height:1.56;text-align:justify!important}
