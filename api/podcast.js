@@ -2,6 +2,7 @@ const FEEDS = [
   'https://www.ivoox.com/feed_fg_f13110723_filtro_1.xml',
   'https://www.ivoox.com/podcast-badrolls_fg_f13110723_filtro_1.xml'
 ];
+const SPOTIFY_SHOW = 'https://open.spotify.com/show/4G8GrUlhLDT0u02XAyxcg1';
 
 const decode = (s='') => s
   .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1')
@@ -16,6 +17,17 @@ const attr = (xml, tagName, name) => {
   const m = xml.match(new RegExp(`<${tagName}[^>]*\\s${name}=["']([^"']+)["'][^>]*>`, 'i'));
   return m ? decode(m[1]) : '';
 };
+
+async function latestSpotifyEpisode(){
+  try{
+    const r=await fetch(SPOTIFY_SHOW,{headers:{'user-agent':'Mozilla/5.0'}});
+    if(!r.ok) return SPOTIFY_SHOW;
+    const html=await r.text();
+    const ids=[...html.matchAll(/(?:https:\/\/open\.spotify\.com)?\/episode\/([A-Za-z0-9]{10,})/g)].map(m=>m[1]);
+    const id=[...new Set(ids)][0];
+    return id ? `https://open.spotify.com/episode/${id}` : SPOTIFY_SHOW;
+  }catch(_){return SPOTIFY_SHOW}
+}
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control','s-maxage=900, stale-while-revalidate=86400');
@@ -43,5 +55,6 @@ module.exports = async (req, res) => {
     const num = (title.match(/^\s*(\d{1,3})\s*[-–—]/)||[])[1] || '';
     return {title, description, image, link, guid, duration, date, number:num};
   });
-  res.status(200).json({ok:true, source, show:{title:strip(tag(xml,'title')), image:channelImage}, episodes:items});
+  const spotifyEpisode = await latestSpotifyEpisode();
+  res.status(200).json({ok:true, source, show:{title:strip(tag(xml,'title')), image:channelImage}, spotifyEpisode, episodes:items});
 };
