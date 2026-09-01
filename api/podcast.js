@@ -17,16 +17,55 @@ const attr = (xml, tagName, name) => {
   const m = xml.match(new RegExp(`<${tagName}[^>]*\\s${name}=["']([^"']+)["'][^>]*>`, 'i'));
   return m ? decode(m[1]) : '';
 };
+const decodeSpotifyHtml = s => s
+  .replace(/\\u([0-9a-fA-F]{4})/g,(_,h)=>String.fromCharCode(parseInt(h,16)))
+  .replace(/\\\//g,'/')
+  .replace(/\\"/g,'"')
+  .replace(/&amp;/g,'&')
+  .replace(/&#x27;|&#39;/g,"'")
+  .replace(/&quot;/g,'"');
 
-async function latestSpotifyEpisode(){
+async function spotifyEpisodeMap(items){
+  const result = {};
   try{
     const r=await fetch(SPOTIFY_SHOW,{headers:{'user-agent':'Mozilla/5.0'}});
-    if(!r.ok) return SPOTIFY_SHOW;
-    const html=await r.text();
-    const ids=[...html.matchAll(/(?:https:\/\/open\.spotify\.com)?\/episode\/([A-Za-z0-9]{10,})/g)].map(m=>m[1]);
-    const id=[...new Set(ids)][0];
-    return id ? `https://open.spotify.com/episode/${id}` : SPOTIFY_SHOW;
-  }catch(_){return SPOTIFY_SHOW}
+    if(!r.ok) return result;
+    const html=decodeSpotifyHtml(await r.text());
+    const occurrences=[];
+    for(const m of html.matchAll(/(?:https:\/\/open\.spotify\.com)?\/episode\/([A-Za-z0-9]{10,})/g)){
+      occurrences.push({id:m[1],index:m.index||0});
+    }
+    const unique=[];
+    const seen=new Set();
+    for(const o of occurrences){
+      if(!seen.has(o.id)){seen.add(o.id);unique.push(o)}
+    }
+    const used=new Set();
+    for(const item of items){
+      const num=String(item.number||'').padStart(2,'0');
+      if(!/^\d{2,3}$/.test(num)) continue;
+      const positions=[];
+      const exact=item.title;
+      let pos=html.indexOf(exact);
+      while(pos!==-1){positions.push(pos);pos=html.indexOf(exact,pos+1)}
+      if(!positions.length){
+        const re=new RegExp(`(?:^|[^0-9])${num}\\s*[-–—]`,'g');
+        for(const m of html.matchAll(re)) positions.push(m.index||0);
+      }
+      if(!positions.length) continue;
+      let best=null;
+      for(const o of unique){
+        if(used.has(o.id)) continue;
+        const distance=Math.min(...positions.map(p=>Math.abs(p-o.index)));
+        if(!best || distance<best.distance) best={...o,distance};
+      }
+      if(best && best.distance<12000){
+        result[num]=`https://open.spotify.com/episode/${best.id}`;
+        used.add(best.id);
+      }
+    }
+    return result;
+  }catch(_){return result}
 }
 
 module.exports = async (req, res) => {
@@ -55,6 +94,8 @@ module.exports = async (req, res) => {
     const num = (title.match(/^\s*(\d{1,3})\s*[-–—]/)||[])[1] || '';
     return {title, description, image, link, guid, duration, date, number:num};
   });
-  const spotifyEpisode = await latestSpotifyEpisode();
-  res.status(200).json({ok:true, source, show:{title:strip(tag(xml,'title')), image:channelImage}, spotifyEpisode, spotifyShow:SPOTIFY_SHOW, episodes:items});
+  const spotifyMap = await spotifyEpisodeMap(items);
+  const episodes=items.map(item=>({...item,spotifyUrl:spotifyMap[String(item.number||'').padStart(2,'0')]||''}));
+  const spotifyEpisode=episodes[0]?.spotifyUrl||SPOTIFY_SHOW;
+  res.status(200).json({ok:true, source, show:{title:strip(tag(xml,'title')), image:channelImage}, spotifyEpisode, spotifyShow:SPOTIFY_SHOW, episodes});
 };
