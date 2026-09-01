@@ -11,7 +11,20 @@ const instagramIcon=`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="
 function listenLinks(spotifyUrl,ivooxUrl){
  const spotifyTarget=esc(spotifyUrl||SPOTIFY_SHOW);
  const ivooxTarget=esc(ivooxUrl||IVOOX_SHOW);
- return `<div class="listen-row"><span class="listen-label">Escuchar</span><div class="platform-links"><a class="platform-link spotify" href="${spotifyTarget}" target="_blank" rel="noopener" aria-label="Escuchar el último episodio de Badrolls en Spotify">${spotifyIcon}<span>Spotify</span></a><a class="platform-link ivoox" href="${ivooxTarget}" target="_blank" rel="noopener" aria-label="Escuchar el último episodio de Badrolls en iVoox">${ivooxLogo}</a><a class="platform-link instagram" href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Seguir Badrolls en Instagram">${instagramIcon}</a></div></div>`
+ return `<div class="listen-row"><span class="listen-label">Escuchar</span><div class="platform-links"><a class="platform-link spotify" href="${spotifyTarget}" target="_blank" rel="noopener" aria-label="Escuchar Badrolls en Spotify">${spotifyIcon}<span>Spotify</span></a><a class="platform-link ivoox" href="${ivooxTarget}" target="_blank" rel="noopener" aria-label="Escuchar Badrolls en iVoox">${ivooxLogo}</a><a class="platform-link instagram" href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Seguir Badrolls en Instagram">${instagramIcon}</a></div></div>`
+}
+
+function renderSeason(episodes){
+ const list=document.querySelector('#season-one-list');
+ const count=document.querySelector('#season-one-count');
+ if(!list) return;
+ const season=episodes.filter(e=>Number(e.number)>=1 && Number(e.number)<=12).sort((a,b)=>Number(b.number)-Number(a.number));
+ if(count) count.textContent=`${season.length} EPISODIOS · TEMPORADA COMPLETA`;
+ list.innerHTML=season.map(e=>{
+   const ivoox=esc(e.link||e.guid||IVOOX_SHOW);
+   const n=String(e.number||'').padStart(2,'0');
+   return `<article class="season-episode"><div class="season-number">${n}</div><div class="season-main"><h3>${esc(e.title.replace(/^\s*\d{1,3}\s*[-–—]\s*/,''))}</h3><p>${date(e.date)}${e.duration?' · '+esc(e.duration):''}</p></div><div class="season-actions"><a href="${SPOTIFY_SHOW}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(e.title)} en Spotify">${spotifyIcon}<span>Spotify</span></a><a class="season-ivoox" href="${ivoox}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(e.title)} en iVoox">${ivooxLogo}</a></div></article>`;
+ }).join('') || '<p class="season-empty">No se han podido cargar los episodios de la temporada.</p>';
 }
 
 async function loadPodcast(){
@@ -23,6 +36,7 @@ async function loadPodcast(){
   const ivooxEpisodeUrl=latest.link||latest.guid||IVOOX_SHOW;
   const spotifyEpisodeUrl=d.spotifyEpisode||SPOTIFY_SHOW;
   hero.innerHTML=`<a class="episode-art" href="${esc(ivooxEpisodeUrl)}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(latest.title)}"><img src="${esc(latest.image)}" alt="Miniatura de ${esc(latest.title)}"></a>${listenLinks(spotifyEpisodeUrl,ivooxEpisodeUrl)}<div class="hero-episode-info"><p class="meta">ÚLTIMO EPISODIO${latest.number?' · '+esc(latest.number):''}</p><h2>${esc(latest.title)}</h2><p class="episode-meta">${date(latest.date)}${latest.duration?' · '+esc(latest.duration):''}</p></div>`;
+  renderSeason(d.episodes);
  }catch(e){
   hero.innerHTML=`<a class="spotify-card" href="${SPOTIFY_SHOW}" target="_blank" rel="noopener" aria-label="Escuchar Badrolls en Spotify"><iframe class="spotify-embed" src="https://open.spotify.com/embed/show/4G8GrUlhLDT0u02XAyxcg1?theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Badrolls en Spotify"></iframe></a>${listenLinks(SPOTIFY_SHOW,IVOOX_SHOW)}<div class="hero-episode-info"><p class="meta">BADROLLS</p><h2>ESCUCHA EL PODCAST</h2></div>`;
  }
