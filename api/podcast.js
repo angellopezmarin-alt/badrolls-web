@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
   if (!xml) return res.status(502).json({ok:false, error:'feed_unavailable'});
 
   const channelImage = attr(xml, 'itunes:image', 'href') || tag(tag(xml,'image'),'url');
-  const items = [...xml.matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi)].slice(0,6).map(m => {
+  const items = [...xml.matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi)].map(m => {
     const x = m[1];
     const title = strip(tag(x,'title'));
     const description = strip(tag(x,'description') || tag(x,'content:encoded'));
@@ -56,5 +56,5 @@ module.exports = async (req, res) => {
     return {title, description, image, link, guid, duration, date, number:num};
   });
   const spotifyEpisode = await latestSpotifyEpisode();
-  res.status(200).json({ok:true, source, show:{title:strip(tag(xml,'title')), image:channelImage}, spotifyEpisode, episodes:items});
+  res.status(200).json({ok:true, source, show:{title:strip(tag(xml,'title')), image:channelImage}, spotifyEpisode, spotifyShow:SPOTIFY_SHOW, episodes:items});
 };
