@@ -1,3 +1,54 @@
+/* BADROLLS textured section system: light / dark alternating */
+.hero,
+.about,
+.people{
+  background-color:#F3EFE6;
+  background-image:linear-gradient(rgba(243,239,230,.76),rgba(243,239,230,.76)),url('badrolls-hero-texture.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.hero:before{display:none}
+
+.seasons,
+.playing,
+footer{
+  background-color:#12110F;
+  background-image:linear-gradient(rgba(18,17,15,.60),rgba(18,17,15,.60)),url('badrolls-dark-texture.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.seasons{color:#F3EFE6}
+.seasons .section-label,
+.season-summary p,
+.season-dropdown summary small,
+.season-main p,
+.season-empty{color:#DED6C7}
+.season-summary,
+.season-dropdown{border-color:#F3EFE6}
+.season-list,
+.season-episode{border-color:rgba(243,239,230,.32)}
+.season-dropdown summary:hover,
+.season-episode:hover{color:#12110F}
+.season-dropdown summary:hover small,
+.season-episode:hover .season-main p{color:#5F5A52}
+.season-actions a{color:#F3EFE6}
+.season-actions a:first-child .spotify-disc{fill:#F3EFE6}
+.season-actions a:first-child .spotify-wave{fill:#12110F}
+.season-actions .season-ivoox svg,
+.season-actions .season-ivoox svg *{fill:#F3EFE6!important}
+.season-episode:hover .season-actions a{color:#12110F}
+.season-episode:hover .season-actions a:first-child .spotify-disc{fill:#12110F}
+.season-episode:hover .season-actions a:first-child .spotify-wave{fill:#D1E23F}
+.season-episode:hover .season-actions .season-ivoox svg,
+.season-episode:hover .season-actions .season-ivoox svg *{fill:#12110F!important}
+
+.about{background-attachment:scroll}
+.people{background-position:center top}
+.playing{background-position:center top}
+footer{background-position:center bottom}
+
 @media (max-width:1100px){
   .section-label{font-size:13px}
   .about-grid,.about-heading,.about-copy{width:100%;max-width:none}
@@ -9,6 +60,8 @@
 }
 
 @media (max-width:720px){
+  .hero,.about,.people{background-image:linear-gradient(rgba(243,239,230,.80),rgba(243,239,230,.80)),url('badrolls-hero-texture.png');background-position:center top}
+  .seasons,.playing,footer{background-image:linear-gradient(rgba(18,17,15,.64),rgba(18,17,15,.64)),url('badrolls-dark-texture.png');background-position:center top}
   .about,.people,.section{padding-left:22px!important;padding-right:22px!important}
   .lead{font-size:29px;line-height:1.5}
   .about-intro{font-size:33px;line-height:1.44;text-align:justify!important}
