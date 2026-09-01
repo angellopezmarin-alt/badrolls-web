@@ -52,10 +52,10 @@ footer{background-position:center bottom}
 @media (max-width:1100px){
   .section-label{font-size:13px}
   .about-grid,.about-heading,.about-copy{width:100%;max-width:none}
-  .about-intro{width:100%;max-width:none;font-size:22px;line-height:1.5;text-align:left!important;hyphens:none!important;-webkit-hyphens:none!important}
-  .about-copy p:not(.about-punch){width:100%;font-size:18px;line-height:1.7;margin-bottom:30px;color:#1f1d1a;text-align:left!important;hyphens:none!important;-webkit-hyphens:none!important}
-  .about-copy blockquote{width:100%;max-width:none;font-size:24px;line-height:1.4;text-align:left!important;hyphens:none!important;-webkit-hyphens:none!important}
-  .people p{font-size:18px;line-height:1.65;color:#1f1d1a;text-align:left!important;hyphens:none!important;-webkit-hyphens:none!important}
+  .about-intro{width:100%;max-width:none;font-size:22px;line-height:1.5;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
+  .about-copy p:not(.about-punch){width:100%;font-size:18px;line-height:1.7;margin-bottom:30px;color:#1f1d1a;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
+  .about-copy blockquote{width:100%;max-width:none;font-size:24px;line-height:1.4;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
+  .people p{font-size:18px;line-height:1.65;color:#1f1d1a;text-align:justify!important;text-align-last:left;text-justify:inter-word;hyphens:none!important;-webkit-hyphens:none!important}
   .lead{font-size:21px;line-height:1.5}
 }
 
@@ -64,10 +64,10 @@ footer{background-position:center bottom}
   .seasons,.playing,footer{background-image:linear-gradient(rgba(18,17,15,.64),rgba(18,17,15,.64)),url('badrolls-dark-texture.png');background-position:center top}
   .about,.people,.section{padding-left:22px!important;padding-right:22px!important}
   .lead{font-size:19px;line-height:1.55}
-  .about-intro{font-size:21px;line-height:1.5;text-align:left!important}
-  .about-copy p:not(.about-punch){font-size:17px;line-height:1.7;margin-bottom:28px;text-align:left!important}
-  .about-copy blockquote{font-size:22px;line-height:1.42;text-align:left!important}
-  .people p{font-size:17px;line-height:1.65;text-align:left!important}
+  .about-intro{font-size:21px;line-height:1.5;text-align:justify!important;text-align-last:left;text-justify:inter-word}
+  .about-copy p:not(.about-punch){font-size:17px;line-height:1.7;margin-bottom:28px;text-align:justify!important;text-align-last:left;text-justify:inter-word}
+  .about-copy blockquote{font-size:22px;line-height:1.42;text-align:justify!important;text-align-last:left;text-justify:inter-word}
+  .people p{font-size:17px;line-height:1.65;text-align:justify!important;text-align-last:left;text-justify:inter-word}
   .about-punch{margin-left:0!important;margin-right:0!important;width:100%!important}
   .hero-episode h2{font-size:clamp(28px,7.2vw,34px)}
   .section-label{font-size:12px}
@@ -79,8 +79,8 @@ footer{background-position:center bottom}
 @media (max-width:390px){
   .about,.people,.section{padding-left:18px!important;padding-right:18px!important}
   .lead{font-size:18px}
-  .about-intro{font-size:20px;text-align:left!important}
-  .about-copy p:not(.about-punch){font-size:16px;line-height:1.68;text-align:left!important}
-  .about-copy blockquote{font-size:21px;text-align:left!important}
-  .people p{font-size:16px;text-align:left!important}
+  .about-intro{font-size:20px;text-align:justify!important;text-align-last:left}
+  .about-copy p:not(.about-punch){font-size:16px;line-height:1.68;text-align:justify!important;text-align-last:left}
+  .about-copy blockquote{font-size:21px;text-align:justify!important;text-align-last:left}
+  .people p{font-size:16px;text-align:justify!important;text-align-last:left}
 }
