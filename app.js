@@ -18,12 +18,13 @@ function renderSeason(episodes){
  const list=document.querySelector('#season-one-list');
  const count=document.querySelector('#season-one-count');
  if(!list) return;
- const season=episodes.filter(e=>Number(e.number)>=1 && Number(e.number)<=12).sort((a,b)=>Number(b.number)-Number(a.number));
+ const season=episodes.filter(e=>Number(e.number)>=0 && Number(e.number)<=12 && /^\d+$/.test(String(e.number||''))).sort((a,b)=>Number(b.number)-Number(a.number));
  if(count) count.textContent=`${season.length} EPISODIOS · TEMPORADA COMPLETA`;
  list.innerHTML=season.map(e=>{
    const ivoox=esc(e.link||e.guid||IVOOX_SHOW);
+   const spotify=esc(e.spotifyUrl||SPOTIFY_SHOW);
    const n=String(e.number||'').padStart(2,'0');
-   return `<article class="season-episode"><div class="season-number">${n}</div><div class="season-main"><h3>${esc(e.title.replace(/^\s*\d{1,3}\s*[-–—]\s*/,''))}</h3><p>${date(e.date)}${e.duration?' · '+esc(e.duration):''}</p></div><div class="season-actions"><a href="${SPOTIFY_SHOW}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(e.title)} en Spotify">${spotifyIcon}<span>Spotify</span></a><a class="season-ivoox" href="${ivoox}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(e.title)} en iVoox">${ivooxLogo}</a></div></article>`;
+   return `<article class="season-episode"><div class="season-number">${n}</div><div class="season-main"><h3>${esc(e.title.replace(/^\s*\d{1,3}\s*[-–—]\s*/,''))}</h3><p>${date(e.date)}${e.duration?' · '+esc(e.duration):''}</p></div><div class="season-actions"><a href="${spotify}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(e.title)} en Spotify">${spotifyIcon}<span>Spotify</span></a><a class="season-ivoox" href="${ivoox}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(e.title)} en iVoox">${ivooxLogo}</a></div></article>`;
  }).join('') || '<p class="season-empty">No se han podido cargar los episodios de la temporada.</p>';
 }
 
@@ -34,7 +35,7 @@ async function loadPodcast(){
   if(!d.ok||!d.episodes?.length) throw new Error('feed');
   const latest=d.episodes[0];
   const ivooxEpisodeUrl=latest.link||latest.guid||IVOOX_SHOW;
-  const spotifyEpisodeUrl=d.spotifyEpisode||SPOTIFY_SHOW;
+  const spotifyEpisodeUrl=latest.spotifyUrl||d.spotifyEpisode||SPOTIFY_SHOW;
   hero.innerHTML=`<a class="episode-art" href="${esc(ivooxEpisodeUrl)}" target="_blank" rel="noopener" aria-label="Escuchar ${esc(latest.title)}"><img src="${esc(latest.image)}" alt="Miniatura de ${esc(latest.title)}"></a>${listenLinks(spotifyEpisodeUrl,ivooxEpisodeUrl)}<div class="hero-episode-info"><p class="meta">ÚLTIMO EPISODIO${latest.number?' · '+esc(latest.number):''}</p><h2>${esc(latest.title)}</h2><p class="episode-meta">${date(latest.date)}${latest.duration?' · '+esc(latest.duration):''}</p></div>`;
   renderSeason(d.episodes);
  }catch(e){
